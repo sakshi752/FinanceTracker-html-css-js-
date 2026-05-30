@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.mainContainer {
+    background-color: rgb(1, 1, 27);
+    padding: 30px;
+    display: flex;
+    /* justify-content: space-between;
+    align-items: center; */
+    height: 100vh;
+    color: white;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.mainContainer .formContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainContainer .formContainer .addBtnContainer {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mainContainer .formContainer .addBtnContainer button {
+    padding: 6px;
+    font-size: 15px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.mainContainer .formContainer .formContent {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: white;
+    color: black;
+    padding: 22px;
+    border-radius: 7px;
+}
+
+.mainContainer .formContainer .formContent .formSecOne {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.mainContainer .formContainer .formContent .formSecTwo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.mainContainer .formContainer .formContent .formSecTwo div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.mainContainer .formContainer .formContent .formSecTwo div label {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.mainContainer .formContainer .formContent .formSecTwo div input,.mainContainer .formContainer .formContent .formSecTwo div select {
+    outline: none;
+    padding: 3px;
+    color: black;
+}
+
+.mainContainer .formContainer .formContent .AddTransactionBtn {
+    outline: none;
+    padding: 5px;
+    width: 10%;
+    border: none;
+    background: darkblue;
+    color: white;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mainContainer .controlContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.mainContainer .controlContainer .sortTransaction {
+    padding: 6px;
+    background: deeppink;
+    border-radius: 4px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.mainContainer .controlContainer .filterTransaction {
+    padding: 6px;
+    background: rgb(255, 67, 20);
+    border-radius: 4px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.mainContainer .transactionContainer {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    color: black;
+    width: 40%;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 17px;
+}
+
+.mainContainer .transactionContainer .transactionMainInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.mainContainer .transactionContainer .tansactionSubInfo {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0 7px;
+}
+
+.mainContainer .transactionContainer .updateTransaction {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.mainContainer .transactionContainer .updateTransaction .deleteTransaction {
+    background: red;
+    color: white;
+    padding: 7px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.mainContainer .transactionContainer .updateTransaction .editTransaction {
+    background: green;
+    color: white;
+    padding: 7px;
+    border-radius: 4px;
+    cursor: pointer;
+}
