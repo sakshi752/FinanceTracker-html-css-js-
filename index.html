@@ -13,39 +13,44 @@
     <section class="mainContainer">
         <section class="formContainer">
             <div class="addBtnContainer">
-                <button>Add Transaction</button>
+                <button class="toggle">Add Transaction</button>
             </div>
             <div class="formContent">
-                <div class="formSecOne">
-                    <h2>Add Transaction</h2>
-                    <span><i class="fa-solid fa-x"></i></span>
+                <div class="innerFormBox">
+                    <div class="formSecOne">
+                        <h2>Add Transaction</h2>
+                        <span class="toggle"><i class="fa-solid fa-x"></i></span>
+                    </div>
+                    <form action="" class="form">
+                        <div>
+                            <!-- title -->
+                            <label for="transactionTitle">Title</label>
+                            <input type="text" name="transactionTitle" class="transactionTitle" id="transactionTitle">
+                        </div>
+                        <div>
+                            <!-- amount -->
+                            <label for="transactionAmount">Amount</label>
+                            <input type="number" name="transactionAmount" class="transactionAmount"
+                                id="transactionAmount">
+                        </div>
+                        <div>
+                            <label for="transactionCategory">Label</label>
+                            <select name="transactionCategory" class="transactionCatefory" id="transactionCategory">
+                                <option value="">Select Category</option>
+                                <option value="0">Income</option>
+                                <option value="1">Expense</option>
+
+                            </select>
+                        </div>
+                        <div>
+                            <!-- date -->
+                            <label for="transactionDate">Date</label>
+                            <input type="date" name="transactionDate" class="transactionDate" id="transactionDate">
+                        </div>
+                        <button class="AddTransactionBtn" id="AddTransactionBtn" type="submit">Add</button>
+                    </form>
                 </div>
-                <form action="" class="formSecTwo">
-                    <div>
-                        <!-- title -->
-                        <label for="transactionTitle">Title</label>
-                        <input type="text" name="transactionTitle" id="transactionTitle">
-                    </div>
-                    <div>
-                        <!-- amount -->
-                        <label for="transactionAmount">Amount</label>
-                        <input type="number" name="transactionAmount" id="transactionAmount">
-                    </div>
-                    <div>
-                        <label for="transactionCategory">Label</label>
-                        <select name="transactionCategory" id="transactionCategory">
-                            <option value="">Select Category</option>
-                            <option value="expense">Expense</option>
-                            <option value="income">Income</option>
-                        </select>
-                    </div>
-                    <div>
-                        <!-- date -->
-                        <label for="transactionDate">Date</label>
-                        <input type="date" name="transactionDate" id="transactionDate">
-                    </div>
-                    <button class="AddTransactionBtn" id="AddTransactionBtn" type="submit">Add</button>
-                </form>
+
             </div>
         </section>
         <section class="controlContainer">
@@ -53,18 +58,35 @@
             <span class="filterTransaction" id="filterTransaction"><i class="fa-solid fa-filter"></i></span>
         </section>
         <section class="transactionContainer">
-            <div class="transactionMainInfo">
-                <p>Title</p>
-                <span>$100</span>
+            <!-- <div class="transactionEntry">
+                <div class="transactionMainInfo">
+                    <p>Title</p>
+                    <span>$100</span>
+                </div>
+                <div class="tansactionSubInfo">
+                    <span>category</span>
+                    <span>11/06/2026</span>
+                </div>
+                <div class="updateTransaction">
+                    <span class="deleteTransaction" id="deleteTransaction"><i class="fa-solid fa-trash"></i></span>
+                    <span class="editTransaction" id="editTransaction"><i class="fa-solid fa-pen-to-square"></i></span>
+                </div>
             </div>
-            <div class="tansactionSubInfo">
-                <span>category</span>
-                <span>11/06/2026</span>
-            </div>
-            <div class="updateTransaction">
-                <span class="deleteTransaction" id="deleteTransaction"><i class="fa-solid fa-trash"></i></span>
-                <span class="editTransaction" id="editTransaction"><i class="fa-solid fa-pen-to-square"></i></span>
-            </div>
+            <div class="transactionEntry">
+                <div class="transactionMainInfo">
+                    <p>Title</p>
+                    <span>$100</span>
+                </div>
+                <div class="tansactionSubInfo">
+                    <span>category</span>
+                    <span>11/06/2026</span>
+                </div>
+                <div class="updateTransaction">
+                    <span class="deleteTransaction" id="deleteTransaction"><i class="fa-solid fa-trash"></i></span>
+                    <span class="editTransaction" id="editTransaction"><i class="fa-solid fa-pen-to-square"></i></span>
+                </div>
+            </div> -->
+
         </section>
     </section>
     <script src="script.js"></script>
