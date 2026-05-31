@@ -11,22 +11,22 @@ toggleBtns.forEach(btn => {
     });
 });
 
-formSection.addEventListener("click", (e) => {
-    if (e.target === formSection) {
-        formSection.classList.remove("show");
-    }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
     // check if cart is present in local storage
     transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
     if (transactions.length == 0) {
-        // cartItemsContainer.innerHTML = "<h2>The cart is empty!</h2>"
+        transactionContainer.innerHTML = "<h2>there are no transactions!</h2>"
     } else {
-        // transactions.forEach(item => renderCartItem(item));
+        transactions.forEach(item => renderFinance(item));
     }
     // updatePrice()
+});
+
+formSection.addEventListener("click", (e) => {
+    if (e.target === formSection) {
+        formSection.classList.remove("show");
+    }
 });
 
 form.addEventListener("submit", (e) => {
@@ -53,6 +53,8 @@ form.addEventListener("submit", (e) => {
         renderFinance(newFinance);
         saveToLocalStorage()
     }
+    form.reset();
+     formSection.classList.toggle("show");
 });
 
 const addToFinanceArr = (title, amount, category, date) => {
@@ -83,7 +85,7 @@ const renderFinance = (finaceEntry) => {
     const updateTransaction = document.createElement("div");
     updateTransaction.classList.add("updateTransaction")
     updateTransaction.innerHTML = ` <span class="deleteTransaction" id="deleteTransaction" data-id="${finaceEntry.id}"><i class="fa-solid fa-trash"></i></span>
-                    <span class="editTransaction" id="editTransaction" data-id="${finaceEntry.id}><i class="fa-solid fa-pen-to-square" ></i></span>`
+                    <span class="editTransaction" id="editTransaction" data-id="${finaceEntry.id}" ><i class="fa-solid fa-pen-to-square"></i></span>`
     
     transactionEntry.appendChild(transactionMainInfo)
     transactionEntry.appendChild(tansactionSubInfo);
