@@ -58,6 +58,7 @@ form.addEventListener("submit", (e) => {
 
     const categories = ["income", "expense"];
 
+    // check that if you are adding expense then is the total balance is less than expense then you cannot add that expense else you can and if the category is not expense then you can work as it is
     if (Number(category) === 1) {
         if (checkExpense(amount)) {
             if (editTransactionId) {
@@ -74,8 +75,7 @@ form.addEventListener("submit", (e) => {
                     return transaction;
                 });
                 transactionContainer.innerHTML = "";
-                console.log("tran ", transactions);
-
+        
 
                 // render all transactions again
                 transactions.forEach(transaction => {
@@ -96,7 +96,7 @@ form.addEventListener("submit", (e) => {
                 renderTransactions(newFinance);
                 saveToLocalStorage()
             }
-        }else{
+        } else {
             alert("You donot have enough current balance!")
         }
     } else {
@@ -114,8 +114,6 @@ form.addEventListener("submit", (e) => {
                 return transaction;
             });
             transactionContainer.innerHTML = "";
-            console.log("tran ", transactions);
-
 
             // render all transactions again
             transactions.forEach(transaction => {
@@ -186,13 +184,31 @@ transactionContainer.addEventListener("click", (e) => {
     const deleteTransactionBtn = e.target.closest("#deleteTransaction");
     if (deleteTransactionBtn) {
         const id = Number(deleteTransactionBtn.dataset.id);
-        
+
         const transactionToBeDeleted = transactions.find(transaction => transaction.id === id);
-        if (transactionToBeDeleted.category === "Expense") {
+
+        if (transactionToBeDeleted.category === "expense") {
+
             transactions = transactions.filter(transaction => transaction.id != id);
-        }else{
-            // che
+        } else {
+            // when category is income then we will check that if deleting it makes the transaction -ve if yes then we cannot delete it
+            const tempIncome = transactions
+                .filter(t => t.id !== id)
+                .reduce((sum, t) => t.category === "income" ? sum + Number(t.amount) : sum, 0);
+
+            const tempExpense = transactions
+                .filter(t => t.id !== id)
+                .reduce((sum, t) => t.category === "expense" ? sum + Number(t.amount) : sum, 0);
+
+            if (tempIncome-tempExpense<0) {
+                alert("Cannot delete income, balance will become negative")
+                return;
+            }else{
+                transactions = transactions.filter(transaction => transaction.id != id);
+            }
+
         }
+        calculate()
         saveToLocalStorage();
 
         transactionContainer.innerHTML = ""
@@ -218,7 +234,8 @@ transactionContainer.addEventListener("click", (e) => {
         AddTransactionBtn.textContent = "Edit"
 
         form.querySelector("#transactionTitle").value = transaction.title;
-        form.querySelector("#transactionCategory").value = transaction.category == "income" ? 0 : 1;
+        form.querySelector("#transactionCategory").value =
+    transaction.category === "income" ? "0" : "1";
         const d = new Date(transaction.date);
         form.querySelector("#transactionDate").value = d.toISOString().split("T")[0];
         form.querySelector("#transactionAmount").value = transaction.amount;
@@ -261,24 +278,19 @@ const calculate = () => {
 }
 
 const checkExpense = (expense) => {
-    if (transactions.length != 0) {
-        const totalIncome = transactions.reduce((sum, transaction) => {
-            if (transaction.category === "income") {
-                return sum + Number(transaction.amount);
-            } else {
-                return sum;
-            }
-        }, 0);
+    const totalIncome = transactions.reduce((sum, transaction) => {
+        return transaction.category === "income"
+            ? sum + Number(transaction.amount)
+            : sum;
+    }, 0);
 
-        const totalExpense = transactions.reduce((sum, transaction) => {
-            if (transaction.category === "expense") {
-                return sum + Number(transaction.amount);
-            } else {
-                return sum;
-            }
-        }, 0)
-        const currBalance = totalIncome - totalExpense;
-        return currBalance>expense;
+    const totalExpense = transactions.reduce((sum, transaction) => {
+        return transaction.category === "expense"
+            ? sum + Number(transaction.amount)
+            : sum;
+    }, 0);
 
-    }
-}
+    const currBalance = totalIncome - totalExpense;
+
+    return currBalance >= Number(expense);
+};
