@@ -6,6 +6,9 @@ const transactionContainer = document.querySelector(".transactionContainer")
 let editTransactionId = null;
 const formTitle = document.querySelector(".formTitle");
 const AddTransactionBtn = document.querySelector(".AddTransactionBtn");
+const totalRevenueAmt = document.querySelector(".totalRevenueAmt");
+const totalIncomeAmt = document.querySelector(".totalIncomeAmt");
+const totalExpenseAmt = document.querySelector(".totalExpenseAmt");
 
 toggleBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -25,9 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (transactions.length == 0) {
         transactionContainer.innerHTML = "<h2>there are no transactions!</h2>"
+
     } else {
         transactions.forEach(item => renderTransactions(item));
     }
+    calculate();
     // updatePrice()
 });
 
@@ -53,42 +58,87 @@ form.addEventListener("submit", (e) => {
 
     const categories = ["income", "expense"];
 
-    if (editTransactionId) {
-        transactions = transactions.map(transaction => {
-            if (transaction.id === editTransactionId) {
-                return {
-                    ...transaction,
-                    title,
-                    amount,
-                    formattedDate,
-                    category:categories[category]
+    if (Number(category) === 1) {
+        if (checkExpense(amount)) {
+            if (editTransactionId) {
+                transactions = transactions.map(transaction => {
+                    if (transaction.id === editTransactionId) {
+                        return {
+                            ...transaction,
+                            title,
+                            amount,
+                            formattedDate,
+                            category: categories[category]
+                        }
+                    }
+                    return transaction;
+                });
+                transactionContainer.innerHTML = "";
+                console.log("tran ", transactions);
+
+
+                // render all transactions again
+                transactions.forEach(transaction => {
+                    renderTransactions(transaction);
+                });
+
+                saveToLocalStorage();
+
+                editTransactionId = null;
+                formTitle.textContent = "Add Transaction"
+                AddTransactionBtn.textContent = "Add"
+            } else {
+                if (transactions.length === 0) {
+                    transactionContainer.innerHTML = "";
                 }
+                addToFinanceArr(title, amount, categories[category], formattedDate);
+                const newFinance = transactions[transactions.length - 1];
+                renderTransactions(newFinance);
+                saveToLocalStorage()
             }
-            return transaction;
-        });
-        transactionContainer.innerHTML = "";
-        console.log("tran ",transactions);
-        
-
-        // render all transactions again
-        transactions.forEach(transaction => {
-            renderTransactions(transaction);
-        });
-
-        saveToLocalStorage();
-
-        editNoteID = null;
-        formTitle.textContent = "Add Transaction"
-        AddTransactionBtn.textContent = "Add"
-    } else {
-        if (transactions.length === 0) {
-            transactionContainer.innerHTML = "";
+        }else{
+            alert("You donot have enough current balance!")
         }
-        addToFinanceArr(title, amount, categories[category], formattedDate);
-        const newFinance = transactions[transactions.length - 1];
-        renderTransactions(newFinance);
-        saveToLocalStorage()
+    } else {
+        if (editTransactionId) {
+            transactions = transactions.map(transaction => {
+                if (transaction.id === editTransactionId) {
+                    return {
+                        ...transaction,
+                        title,
+                        amount,
+                        formattedDate,
+                        category: categories[category]
+                    }
+                }
+                return transaction;
+            });
+            transactionContainer.innerHTML = "";
+            console.log("tran ", transactions);
+
+
+            // render all transactions again
+            transactions.forEach(transaction => {
+                renderTransactions(transaction);
+            });
+
+            saveToLocalStorage();
+
+            editTransactionId = null;
+            formTitle.textContent = "Add Transaction"
+            AddTransactionBtn.textContent = "Add"
+        } else {
+            if (transactions.length === 0) {
+                transactionContainer.innerHTML = "";
+            }
+            addToFinanceArr(title, amount, categories[category], formattedDate);
+            const newFinance = transactions[transactions.length - 1];
+            renderTransactions(newFinance);
+            saveToLocalStorage()
+        }
     }
+
+    calculate()
     form.reset();
     formSection.classList.toggle("show");
 });
@@ -136,7 +186,13 @@ transactionContainer.addEventListener("click", (e) => {
     const deleteTransactionBtn = e.target.closest("#deleteTransaction");
     if (deleteTransactionBtn) {
         const id = Number(deleteTransactionBtn.dataset.id);
-        transactions = transactions.filter(transaction => transaction.id != id);
+        
+        const transactionToBeDeleted = transactions.find(transaction => transaction.id === id);
+        if (transactionToBeDeleted.category === "Expense") {
+            transactions = transactions.filter(transaction => transaction.id != id);
+        }else{
+            // che
+        }
         saveToLocalStorage();
 
         transactionContainer.innerHTML = ""
@@ -173,4 +229,56 @@ transactionContainer.addEventListener("click", (e) => {
 
 const saveToLocalStorage = () => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+
+const calculate = () => {
+    if (transactions.length === 0) {
+        totalRevenueAmt.textContent = `$${0}`
+        totalIncomeAmt.textContent = `$${0}`
+        totalExpenseAmt.textContent = `$${0}`
+    } else {
+        const totalIncome = transactions.reduce((sum, transaction) => {
+            if (transaction.category === "income") {
+                return sum + Number(transaction.amount);
+            } else {
+                return sum;
+            }
+        }, 0);
+
+        const totalExpense = transactions.reduce((sum, transaction) => {
+            if (transaction.category === "expense") {
+                return sum + Number(transaction.amount);
+            } else {
+                return sum;
+            }
+        }, 0)
+        const currBalance = totalIncome - totalExpense;
+
+        totalRevenueAmt.textContent = `$${currBalance}`
+        totalIncomeAmt.textContent = `$${totalIncome}`
+        totalExpenseAmt.textContent = `$${totalExpense}`
+    }
+}
+
+const checkExpense = (expense) => {
+    if (transactions.length != 0) {
+        const totalIncome = transactions.reduce((sum, transaction) => {
+            if (transaction.category === "income") {
+                return sum + Number(transaction.amount);
+            } else {
+                return sum;
+            }
+        }, 0);
+
+        const totalExpense = transactions.reduce((sum, transaction) => {
+            if (transaction.category === "expense") {
+                return sum + Number(transaction.amount);
+            } else {
+                return sum;
+            }
+        }, 0)
+        const currBalance = totalIncome - totalExpense;
+        return currBalance>expense;
+
+    }
 }
