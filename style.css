@@ -54,6 +54,7 @@
 .mainContainer .formContainer .formContent.show {
     display: flex;
 }
+
 .mainContainer .formContainer .formContent .innerFormBox {
     display: flex;
     gap: 20px;
@@ -138,15 +139,61 @@
     cursor: pointer;
 }
 
+.mainContainer .badgesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 40%;
+}
+
+.mainContainer .badgesContainer .totalRevenue {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    background: rgb(172, 237, 240);
+    color: black;
+    border-radius: 3px;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.mainContainer .badgesContainer .Expense-Income {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.mainContainer .badgesContainer .Expense-Income p {
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    color: black;
+    border-radius: 3px;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.mainContainer .badgesContainer .Expense-Income .income {
+    background-color: rgb(112, 208, 112);
+}
+
+.mainContainer .badgesContainer .Expense-Income .expense {
+    background-color: rgb(254, 134, 134);
+}
+
 .mainContainer .transactionContainer {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 40%;
-    
+
 }
 
-.mainContainer .transactionContainer .transactionEntry{
+.mainContainer .transactionContainer .transactionEntry {
     display: flex;
     flex-direction: column;
     background: white;
